@@ -13,6 +13,7 @@
             <th scope="col">Name</th>
             <th scope="col">Gender</th>
             <th scope="col">Address</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@
             <td>{{ p.name }}</td>
             <td>{{ p.gender }}</td>
             <td>{{ p.address }}</td>
+            <td>
+              <button @click="deletePerson(p.id)" type="button" class="btn btn-danger btn-sm">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -118,6 +122,17 @@ export default {
         }).then(() => {
           $('#exampleModal').modal('hide');
         }).catch(error => console.log(error));
+    },
+    deletePerson(id){
+      if(confirm('Are you sure ?')){
+        db.firestore()
+          .collection('persons')
+          .doc(id)
+          .delete()
+          .then(() => {
+            console.log('Deleted');
+          });
+      }
     }
   },
   mounted(){
